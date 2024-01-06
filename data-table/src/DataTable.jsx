@@ -6,11 +6,38 @@ const DataTable = () => {
   const [data, setData] = useState([])
   const [editData, setEditData] = useState(false)
   const [searchInput, setSearchInput] = useState('')
-
+  const [currentPage, setCurrentPage] = useState(1)
   const outsideClick = useRef()
-
   // console.log(outsideClick)
+
+  const pageItem = 5
+
+  const lastItem = pageItem * currentPage
+  const indexOfFirstItem = lastItem - pageItem
+
+  /***
+   * Handle Search functionality
+   */
+
+  let filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchInput.toLowerCase()),
+  )
+  //Here we slicing our array item from filtered data according to element that display on current page
+  const filteredItems = filteredData.slice(indexOfFirstItem, lastItem)
+
+  console.log(filteredItems)
+
+  //Implement Pagination
+  const paginate = (index) => {
+    setCurrentPage(index)
+  }
+
   // console.log(editData)
+
+  //when user type something then we want to search it from 1st page not from the current page
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchInput])
 
   //Now after user edit the field and move outside the table then we want to lock the edit area
 
@@ -43,6 +70,7 @@ const DataTable = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  //code for add item
   const handleAddClick = () => {
     if (formData.name && formData.gender && formData.age) {
       const newItem = {
@@ -57,11 +85,16 @@ const DataTable = () => {
     }
   }
 
+  //code for delete functionality
   const handleDelete = (id) => {
+    //if user deleted some item from second page then we send back user from second page to 1st page
+    if (filteredItems.length === 1 && currentPage !== 1) {
+      setCurrentPage((prev) => prev - 1)
+    }
     //here we filter all the item that is not matching with our id
-    const filteredData = data.filter((item) => item.id !== id)
+    const updatedList = data.filter((item) => item.id !== id)
     //now we push the filtereddata to data
-    setData(filteredData)
+    setData(updatedList)
   }
 
   const handleEdit = (id, updatedValue) => {
@@ -75,16 +108,6 @@ const DataTable = () => {
     // console.log(updatedData)
     setData(updatedData)
   }
-
-  /***
-   * Handle Search functionality
-   */
-
-  const filteredItem = data.filter((item) => {
-    item.name.toLowerCase().includes(searchInput.toLowerCase())
-  })
-
-  console.log(filteredItem)
 
   const handleSearch = (e) => {
     setSearchInput(e.target.value)
@@ -143,7 +166,7 @@ const DataTable = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredItem.map((item) => (
+            {filteredItems.map((item) => (
               <tr key={item.id}>
                 <td
                   id={item.id}
@@ -191,7 +214,23 @@ const DataTable = () => {
             ))}
           </tbody>
         </table>
-        <div className="pagination"></div>
+        {/* Pagination */}
+        <div className="pagination">
+          {Array.from(
+            { length: Math.ceil(data.length / pageItem) },
+            (_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => paginate(index + 1)}
+                style={{
+                  backgroundColor: currentPage === index + 1 && 'lightgreen',
+                }}
+              >
+                {index + 1}
+              </button>
+            ),
+          )}
+        </div>
       </div>
     </div>
   )
