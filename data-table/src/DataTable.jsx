@@ -1,15 +1,42 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const DataTable = () => {
   const [formData, setFormData] = useState({ name: '', gender: '', age: '' })
 
   const [data, setData] = useState([])
   const [editData, setEditData] = useState(false)
+  const [searchInput, setSearchInput] = useState('')
+
+  const outsideClick = useRef()
+
+  // console.log(outsideClick)
+  // console.log(editData)
+
+  //Now after user edit the field and move outside the table then we want to lock the edit area
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        outsideClick.current &&
+        !outsideClick.current.contains(event.target)
+      ) {
+        setEditData(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
 
   useEffect(() => {
     if (!editData) return
 
-    const selectedItem = document.querySelectorAll([])
+    const selectedItem = document.querySelectorAll(`[id='${editData}']`)
+    //when we click on the edit button we want to focust first element in nodeList
+    selectedItem[0].focus()
+    // console.log(selectedItem)
+    // console.log(selectedItem[0])
   }, [editData])
 
   const handleInputChange = (e) => {
@@ -37,7 +64,32 @@ const DataTable = () => {
     setData(filteredData)
   }
 
-  console.log(data)
+  const handleEdit = (id, updatedValue) => {
+    if (!editData || editData !== id) {
+      return
+    }
+    //we want to update specific element that is click so we map over all the data and then return if id==item.id so we update otherwise return element
+    const updatedData = data.map((item) =>
+      item.id === id ? { ...item, ...updatedValue } : item,
+    )
+    // console.log(updatedData)
+    setData(updatedData)
+  }
+
+  /***
+   * Handle Search functionality
+   */
+
+  const filteredItem = data.filter((item) => {
+    item.name.toLowerCase().includes(searchInput.toLowerCase())
+  })
+
+  console.log(filteredItem)
+
+  const handleSearch = (e) => {
+    setSearchInput(e.target.value)
+  }
+  // console.log(data)
 
   // console.log(formData)
   return (
@@ -78,9 +130,10 @@ const DataTable = () => {
           type="text"
           className="search-input"
           placeholder="Search by name"
-          value={''}
+          value={searchInput}
+          onChange={handleSearch}
         />
-        <table>
+        <table ref={outsideClick}>
           <thead>
             <tr>
               <th>Name</th>
@@ -90,31 +143,40 @@ const DataTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {filteredItem.map((item) => (
               <tr key={item.id}>
                 <td
                   id={item.id}
-                  contentEditable={editData}
+                  contentEditable={editData === item.id}
+                  onBlur={(e) =>
+                    handleEdit(item.id, { name: e.target.innerText })
+                  }
                 >
                   {item.name}
                 </td>
 
                 <td
                   id={item.id}
-                  contentEditable={editData}
+                  contentEditable={editData === item.id}
+                  onBlur={(e) =>
+                    handleEdit(item.id, { gender: e.target.innerText })
+                  }
                 >
                   {item.gender}
                 </td>
                 <td
                   id={item.id}
-                  contentEditable={editData}
+                  contentEditable={editData === item.id}
+                  onBlur={(e) =>
+                    handleEdit(item.id, { age: e.target.innerText })
+                  }
                 >
                   {item.age}
                 </td>
                 <td className="action">
                   <button
                     className="edit"
-                    onClick={() => setEditData(true)}
+                    onClick={() => setEditData(item.id)}
                   >
                     Edit
                   </button>
