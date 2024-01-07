@@ -1,0 +1,66 @@
+/* Reset default margin, padding, and box-sizing */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Center the app content horizontally and vertically */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styling for the main container */
+.container {
+  margin: 50px 0;
+  min-height: 400px;
+  min-width: 500px;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid gray; */
+  border-radius: 5px;
+}
+
+/* Styling for a multiple selection component */
+.multiple-selection {
+  margin: 70px 0;
+  font-size: 16px;
+  background-color: lightsalmon;
+  padding: 0 10px;
+  border-radius: 10px;
+}
+
+/* Styling for the data container */
+.data-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for a question element */
+.question {
+  font-size: 15px;
+  background-color: lightgray;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Styling for an answer element */
+.answer {
+  font-size: 13px;
+  width: 80%;
+  background-color: gray;
+  color: black;
+  border-radius: 5px;
+  padding: 5px 5px;
+}
