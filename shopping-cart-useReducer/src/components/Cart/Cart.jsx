@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
 import './style.css'
-const Cart = ({ cart }) => {
+const Cart = ({
+  cart,
+  removeFromCart,
+  incrementQuantity,
+  decrementQuantity,
+}) => {
   return (
     <div className="cart-container">
       <h1>Cart</h1>
@@ -17,11 +22,26 @@ const Cart = ({ cart }) => {
             />
             <div className="cart-info">{item.title}</div>
             <div className="right">
-              <div className="cart-action">+</div>
+              <div
+                className="cart-action"
+                onClick={() => incrementQuantity(item)}
+              >
+                +
+              </div>
               <div>{item.quantity}</div>
-              <div className="cart-action">-</div>
+              <div
+                className="cart-action"
+                onClick={() => decrementQuantity(item)}
+              >
+                -
+              </div>
               <div className="cart-price">{item.price}</div>
-              <button className="remove-item">Remove</button>
+              <button
+                className="remove-item"
+                onClick={() => removeFromCart(item)}
+              >
+                Remove
+              </button>
             </div>
           </div>
         )

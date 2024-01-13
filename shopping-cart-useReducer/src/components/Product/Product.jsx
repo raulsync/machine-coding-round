@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import './style.css'
-const Product = ({ products, addToCart }) => {
+const Product = ({ products, addToCart, cart }) => {
   return (
     <div className="product-container">
       {products?.map((product) => {
@@ -23,6 +23,7 @@ const Product = ({ products, addToCart }) => {
               <button
                 className="add-product"
                 onClick={() => addToCart(product)}
+                disabled={cart.some((item) => item.id === product.id)}
               >
                 Add to Cart
               </button>

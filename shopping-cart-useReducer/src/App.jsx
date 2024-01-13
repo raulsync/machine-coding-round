@@ -25,6 +25,63 @@ const reducer = (state, action) => {
 
       return { ...state, cart: updatedCarts }
     }
+    case 'Remove_from_cart': {
+      return {
+        // returning those element that doesn't equal to index of item that coming from payload
+
+        ...state,
+        cart: state.cart.filter((item) => item.id !== action.payload.id),
+      }
+    }
+    case 'Increment_Quantity': {
+      //here we retreive index from cart state matching to payload id
+      const index = state.cart.findIndex(
+        (product) => product.id === action.payload.id,
+      )
+      const item = state.cart[index]
+      const newQuantity = item.quantity + 1
+      return {
+        ...state,
+        cart: [
+          ...state.cart.slice(0, index),
+          {
+            ...item,
+            quantity: newQuantity,
+            totalPrice: newQuantity * item.price,
+          },
+          ...state.cart.slice(index + 1),
+        ],
+      }
+    }
+    case 'Decrement_Quantity': {
+      //here we retreive index from cart state matching to payload id
+      const index = state.cart.findIndex(
+        (product) => product.id === action.payload.id,
+      )
+      const item = state.cart[index]
+
+      if (item.quantity === 1) {
+        return {
+          ...state,
+          cart: state.cart.filter((item) => item.id !== action.payload.id),
+        }
+      }
+      const newQuantity = item.quantity - 1
+      return {
+        ...state,
+        cart: [
+          ...state.cart.slice(0, index),
+          {
+            ...item,
+            quantity: newQuantity,
+            totalPrice: newQuantity * item.price,
+          },
+          ...state.cart.slice(index + 1),
+        ],
+      }
+    }
+    default:
+      return state
   }
 }
 
@@ -46,15 +103,33 @@ function App() {
     dispatch({ type: 'Add_to_cart', payload: product })
   }
 
+  const removeFromCart = (item) => {
+    dispatch({ type: 'Remove_from_cart', payload: item })
+  }
+
   console.log('state', state)
+
+  const incrementQuantity = (item) => {
+    dispatch({ type: 'Increment_Quantity', payload: item })
+  }
+
+  const decrementQuantity = (item) => {
+    dispatch({ type: 'Decrement_Quantity', payload: item })
+  }
 
   return (
     <div className="product-cart-container">
       <Product
         products={state.products}
         addToCart={addToCart}
+        cart={state.cart}
       />
-      <Cart cart={state.cart} />
+      <Cart
+        cart={state.cart}
+        removeFromCart={removeFromCart}
+        incrementQuantity={incrementQuantity}
+        decrementQuantity={decrementQuantity}
+      />
     </div>
   )
 }
