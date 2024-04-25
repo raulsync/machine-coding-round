@@ -3,6 +3,10 @@ import './App.css'
 import Cart from './components/Cart/Cart'
 import Product from './components/Product/Product'
 
+/***
+ * TODO: resolve one feature Total price
+ */
+
 //initial state
 const initialState = {
   products: [],

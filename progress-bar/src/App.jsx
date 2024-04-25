@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <span>Progress Bar</span>
-      {/* When the progressbar is complete we want to do something so here we pass onComplete method to do something */}
+      {/* When the progressbar is complete we want to do something so here we pass onComplete method as a props to pregrssbar component */}
       <ProgressBar
         value={value}
         onComplete={() => {

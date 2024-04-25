@@ -15,14 +15,13 @@ const DataTable = () => {
   const lastItem = pageItem * currentPage
   const indexOfFirstItem = lastItem - pageItem
 
-  /***
-   * Handle Search functionality
-   */
-
+  //Handle Search functionality
   let filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(searchInput.toLowerCase()),
   )
+
   //Here we slicing our array item from filtered data according to element that display on current page
+  //for pagination
   const filteredItems = filteredData.slice(indexOfFirstItem, lastItem)
 
   console.log(filteredItems)
