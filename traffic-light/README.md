@@ -1,30 +1,23 @@
-# React + TypeScript + Vite
+# Traffic Light Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This project involves creating a simple traffic light component using React. The traffic light will consist of three lights: red, yellow, and green. These lights will switch from green to yellow to red after predetermined intervals and loop indefinitely. Each light will be lit for the following durations:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Red light: 4000ms
+- Yellow light: 500ms
+- Green light: 3000ms
 
-## Expanding the ESLint configuration
+The goal is to implement a React component that represents the traffic light and switches between these colors based on the specified intervals. Additionally, the traffic light should be styled to make it visually appealing.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Requirements
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Use React to create a component called TrafficLight.
+- The TrafficLight component should display three lights: red, yellow, and green.
+- The lights should switch according to the following intervals:
+  - Red light: 4000ms
+  - Yellow light: 500ms
+  - Green light: 3000ms
+- The traffic light should loop indefinitely, switching between colors in the specified order.
+- Ensure that only one light is active at a time.
+- Style the traffic light to make it visually appealing. You can use CSS or any other styling method of your choice.
