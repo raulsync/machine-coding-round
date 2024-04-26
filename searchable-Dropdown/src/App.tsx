@@ -1,9 +1,11 @@
 import './App.css';
+import Dropdown from './components/Dropdown';
+import { Items } from './constants/data';
 
 function App() {
   return (
     <>
-      <h1>Search DropDown</h1>
+      <Dropdown data={Items} />
     </>
   );
 }
